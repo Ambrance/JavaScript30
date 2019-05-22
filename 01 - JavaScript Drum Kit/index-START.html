@@ -86,9 +86,7 @@
         let btn = keys.find(el => el.dataset.key == key);
         btn.classList.add('playing');
         let sound = document.querySelector(`audio[data-key="${key}"]`);
-        if (sound.dataset.key == key) {
-          playAudio(sound);
-        }
+        playAudio(sound);
       });
     </script>
   </body>
