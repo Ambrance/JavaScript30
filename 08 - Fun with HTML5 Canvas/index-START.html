@@ -1,19 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>HTML5 Canvas</title>
-</head>
-<body>
-<canvas id="draw" width="800" height="800"></canvas>
-<script>
-</script>
+  <head>
+    <meta charset="UTF-8" />
+    <title>HTML5 Canvas</title>
+  </head>
+  <body>
+    <canvas id="draw" width="800" height="800"></canvas>
+    <label for="color">Цвет линии</label>
+    <input type="color" name="color" id="color" value="#000000" />
+    <label for="width">Толщина линии</label>
+    <select name="line_width" id="width">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+    <script>
+      const canvas = document.getElementById('draw');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth - 300;
+      canvas.height = window.innerHeight;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      let mouse = {x: 0, y: 0};
+      let draw = false;
 
-<style>
-  html, body {
-    margin: 0;
-  }
-</style>
+      const color = document.getElementById('color');
+      const width = document.getElementById('width');
 
-</body>
+      canvas.addEventListener('mousedown', function(e) {
+        draw = true;
+        ctx.beginPath();
+      });
+      canvas.addEventListener('mousemove', function(e) {
+        if (draw) {
+          mouse.x = e.pageX - this.offsetLeft;
+          mouse.y = e.pageY - this.offsetTop;
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.strokeStyle = color.value;
+          ctx.lineWidth = width.value;
+          ctx.stroke();
+        }
+      });
+      canvas.addEventListener('mouseup', function(e) {
+        draw = false;
+        ctx.closePath();
+      });
+      canvas.addEventListener('mouseout', function(e) {
+        draw = false;
+      });
+    </script>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 20px;
+        user-select: none;
+        display: flex;
+        align-items: flex-start;
+      }
+      input,
+      select {
+        margin: 0 8px;
+      }
+    </style>
+  </body>
 </html>
